@@ -27,3 +27,10 @@ class NeuralNetwork(torch.nn.Module):
 
 model = NeuralNetwork(50, 3)
 print(model)
+
+num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+print("Total number of trainerable parameters: ", num_params)
+
+print(model.layers[0].weight)
+
+print(model.layers[0].weight.shape)
