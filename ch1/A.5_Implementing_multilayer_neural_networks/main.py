@@ -25,6 +25,7 @@ class NeuralNetwork(torch.nn.Module):
         logits = self.layers(x)
         return logits   # logits are the raw scores output by the last layer
 
+torch.manual_seed(123)
 model = NeuralNetwork(50, 3)
 print(model)
 
@@ -32,5 +33,16 @@ num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
 print("Total number of trainerable parameters: ", num_params)
 
 print(model.layers[0].weight)
-
 print(model.layers[0].weight.shape)
+
+X = torch.rand((1, 50))
+bpp_out = model(X) # With backpropagation
+print(bpp_out)
+
+with torch.no_grad():
+    no_bpp_out = model(X) # Without backpropagation
+print(no_bpp_out)
+
+with torch.no_grad():
+    softmax_out = torch.softmax(model(X), dim=1)
+print(softmax_out)
