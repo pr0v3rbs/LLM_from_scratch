@@ -1,4 +1,18 @@
 import torch
+from torch.utils.data import Dataset
+
+class ToyDataset(Dataset):
+    def __init__(self, X, y):
+        self.features = X
+        self.labels = y
+
+    # The __getitem__ method is used to retrieve the data and labels for a given index.
+    def __getitem__(self, idx):
+        return self.features[idx], self.labels[idx] # one_x, one_y
+    
+    # The __len__ method is used to return the length of the dataset.
+    def __len__(self):
+        return self.labels.shape[0]
 
 X_train = torch.tensor([
     [-1.2, 3.1],
@@ -15,8 +29,10 @@ X_test = torch.tensor([
 ])
 y_test = torch.tensor([0, 1])
 
-print(X_train)
-print(y_train)
+print(X_train, y_train)
+print(X_test, y_test)
 
-print(X_test)
-print(y_test)
+train_ds = ToyDataset(X_train, y_train)
+test_ds = ToyDataset(X_test, y_test)
+
+print(len(train_ds))
