@@ -66,7 +66,7 @@ train_loader = DataLoader(
     dataset=train_ds,   # The ToyDataset instance created earlier
     batch_size=2,
     shuffle=True,
-    num_workers=0,
+    num_workers=0,  # Data loading will be done in the main process (Make a bottleneck)
     drop_last=True
 )
 
