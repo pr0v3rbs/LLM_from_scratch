@@ -98,3 +98,17 @@ for epoch in range(num_epochs):
 ### Q: How many parameters does the neural network introduced in listing A.9 have?
 num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
 print(num_params)  # 752
+
+model.eval()
+with torch.no_grad():
+    outputs = model(X_train)
+print(outputs)  # logits are the raw scores output by the last layer
+
+torch.set_printoptions(sci_mode=False)
+probas = torch.softmax(outputs, dim=1)
+print(probas)  # probabilities of each class
+
+predictions = torch.argmax(probas, dim=1)
+print(predictions)  # predicted class labels
+print(predictions == y_train)  # compare with the true labels
+print(torch.sum(predictions == y_train).items())  # number of correct predictions
