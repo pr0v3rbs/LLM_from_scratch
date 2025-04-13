@@ -42,6 +42,23 @@ class ToyDataset(Dataset):
     def __len__(self):
         return self.labels.shape[0]
 
+# A.10 A function to compute the prediction accuracy of a model
+def compute_accuracy(model, dataloader):
+    model = model.eval()
+    correct = 0.0
+    total_examples = 0
+
+    for idx, (features, labels) in enumerate(dataloader):
+        with torch.no_grad():
+            logits = model(features)
+
+        predictions = torch.argmax(logits, dim=1)
+        compare = labels == predictions
+        correct += torch.sum(compare)
+        total_examples += len(compare)
+
+    return (correct / total_examples).item()
+
 X_train = torch.tensor([
     [-1.2, 3.1],
     [-0.9, 2.9],
@@ -66,6 +83,13 @@ train_loader = DataLoader(
     shuffle=True,
     num_workers=0,  # Data loading will be done in the main process (Make a bottleneck)
     drop_last=True
+)
+
+test_loader = DataLoader(
+    dataset=test_ds,
+    batch_size=2,
+    shuffle=False,  # Not necessary to shuffle
+    num_workers=0
 )
 
 torch.manual_seed(123)
@@ -108,7 +132,5 @@ torch.set_printoptions(sci_mode=False)
 probas = torch.softmax(outputs, dim=1)
 print(probas)  # probabilities of each class
 
-predictions = torch.argmax(probas, dim=1)
-print(predictions)  # predicted class labels
-print(predictions == y_train)  # compare with the true labels
-print(torch.sum(predictions == y_train).items())  # number of correct predictions
+print(compute_accuracy(model, train_loader))
+print(compute_accuracy(model, test_loader))
