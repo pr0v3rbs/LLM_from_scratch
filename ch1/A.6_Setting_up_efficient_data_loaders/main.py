@@ -10,7 +10,7 @@ class ToyDataset(Dataset):
     # The __getitem__ method is used to retrieve the data and labels for a given index.
     def __getitem__(self, idx):
         return self.features[idx], self.labels[idx] # one_x, one_y
-    
+
     # The __len__ method is used to return the length of the dataset.
     def __len__(self):
         return self.labels.shape[0]
