@@ -1,1 +1,1 @@
-../A.6_Setting_up_efficient_data_loaders/main.py
+../A.6_Setting_up_efficient_data_loaders/

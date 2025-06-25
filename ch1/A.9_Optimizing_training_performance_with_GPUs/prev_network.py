@@ -1,1 +1,1 @@
-../A.5_Implementing_multilayer_neural_networks/main.py
+../A.5_Implementing_multilayer_neural_networks/
