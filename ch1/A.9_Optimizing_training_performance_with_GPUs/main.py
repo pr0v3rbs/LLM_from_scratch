@@ -43,8 +43,14 @@ print(tensor_1 + tensor_2)
 torch.manual_seed(123)
 model = prev_network.NeuralNetwork(num_inputs=2, num_outputs=2)
 
+# Method 1: using GPU
 device = torch.device("cuda")   # Defines a device variable that defaults to a GPU
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Method 2.1: using Normal CPU (Normal PC, MPS(Metal Performance Shaders))
+#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# Method 2.2: using macOS CPU MPS(Metal Performance Shaders)
+#device = torch.device( "mps" if torch.backends.mps.is_available() else "cpu" )
+
 model = model.to(device)        # Transfers the model onto the GPU
 
 optimizer = torch.optim.SGD(model.parameters(), lr=0.5)
